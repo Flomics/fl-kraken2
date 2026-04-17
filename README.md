@@ -25,11 +25,11 @@ KRAKEN2                — taxonomic classification
 A two-column, tab-separated file (no header):
 
 ```
-SRR15618988       roskams_pilot
-SRRISOLATE_2552   decru
-X13031            ibarra_2022
-SAMP12345678      prjeb90290_dataset
-RNA020109_S115    ega_dataset
+SRR22561278     block_150bp
+SRR22548962     block_300bp
+X10648  chalasani
+SRR14506881     chen
+RNA020109_S115  decruyenaere
 ```
 
 | Column | Description |
@@ -71,13 +71,6 @@ nextflow run Flomics/fl-kraken2 \
 | `--ega_files_csv` | `k2_reprocessing/ega_files.tsv` | Used by `RNA` strategy |
 | `--ega_credentials` | `k2_reprocessing/credentials.json` | Used by `RNA` strategy |
 
-## Profiles
-
-| Profile | Description |
-|---------|-------------|
-| `singularity` | Run with Singularity containers |
-| `docker` | Run with Docker containers |
-| `conda` | Run with Conda environments |
 
 ## Outputs
 
