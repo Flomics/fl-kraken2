@@ -1,7 +1,7 @@
 #!/usr/bin/env nextflow
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Flomics/fl-kraken
+    Flomics/fl-kraken2
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Download → Trim → Kraken2 + Krona phylogenetic classification pipeline.
 
@@ -16,7 +16,7 @@
       RNA<d>_S<d>      — EGA download via pyega3
 
     Usage:
-      nextflow run /path/to/fl-kraken \
+      nextflow run /path/to/fl-kraken2 \
         --input  samples.tsv \
         --outdir results \
         -profile docker
