@@ -3,10 +3,7 @@ process UMITOOLS_EXTRACT {
     label 'process_single'
 
     conda "${moduleDir}/umitools_extract/environment.yml"
-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/32/32476f0107d72dbd2210a4e56b2873abde07300025cc11052680475509d2db81/data' :
-        'community.wave.seqera.io/library/umi_tools_future_matplotlib_numpy_pruned:1ee668bafc8c9f81' }"
-
+    
     input:
     tuple val(meta), path(reads)
 
@@ -18,16 +15,41 @@ process UMITOOLS_EXTRACT {
     task.ext.when == null || task.ext.when
 
     script:
-    def args   = task.ext.args ?: ''
+    def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
-    """
-    umi_tools \\
-        extract \\
-        -I ${reads[0]} \\
-        --read2-in=${reads[1]} \\
-        -S ${prefix}.umi_extract_1.fastq.gz \\
-        --read2-out=${prefix}.umi_extract_2.fastq.gz \\
-        $args \\
-        > ${prefix}.umi_extract.log
-    """
+    if (meta.single_end) {
+        """
+        export PYTHONHASHSEED=0
+        umi_tools \\
+            extract \\
+            --random-seed=123456789\\
+            -I $reads \\
+            -S ${prefix}.umi_extract.fastq.gz \\
+            $args \\
+            > ${prefix}.umi_extract.log
+
+        cat <<-END_VERSIONS > versions.yml
+        "${task.process}":
+            umitools: \$(umi_tools --version 2>&1 | sed 's/^.*UMI-tools version://; s/ *\$//')
+        END_VERSIONS
+        """
+    }  else {
+        """
+        export PYTHONHASHSEED=0
+        umi_tools \\
+            extract \\
+            --random-seed=123456789\\
+            -I ${reads[0]} \\
+            --read2-in=${reads[1]} \\
+            -S ${prefix}.umi_extract_1.fastq.gz \\
+            --read2-out=${prefix}.umi_extract_2.fastq.gz \\
+            $args \\
+            > ${prefix}.umi_extract.log
+
+        cat <<-END_VERSIONS > versions.yml
+        "${task.process}":
+            umitools: \$(umi_tools --version 2>&1 | sed 's/^.*UMI-tools version://; s/ *\$//')
+        END_VERSIONS
+        """
+    }
 }
