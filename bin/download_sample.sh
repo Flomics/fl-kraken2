@@ -55,6 +55,8 @@ download_ena() {
     [[ "${DATASET,,}" =~ ^block ]] && provider_flag='--provider sra --only-provider'
     [[ "${DATASET,,}" =~ ^ibarra ]] && provider_flag='--provider sra --only-provider'
     [[ "${DATASET,,}" =~ ^ngo ]] && provider_flag='--provider sra --only-provider'
+    [[ "${DATASET,,}" =~ ^reggiardo ]] && provider_flag='--provider sra --only-provider'
+
     fastq-dl --accession "${accession}" --outdir . ${provider_flag}
 
     # SE: fastq-dl produces <accession>.fastq.gz (no _1 suffix); rename for consistency
