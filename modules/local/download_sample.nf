@@ -16,8 +16,10 @@ process DOWNLOAD_SAMPLE {
     tuple val(meta), path("${meta.id}_1.fastq.gz"), path("${meta.id}_2.fastq.gz"), emit: reads
 
     script:
-    def accession = meta.id
+    def accession  = meta.id
+    def api_key_export = params.ncbi_api_key ? "export NCBI_API_KEY='${params.ncbi_api_key}'" : ''
     """
+    ${api_key_export}
     download_sample.sh \\
         "${accession}" \\
         "${dataset}" \\
