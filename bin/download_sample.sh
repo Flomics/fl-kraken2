@@ -59,7 +59,7 @@ download_ena() {
     [[ "${DATASET,,}" =~ ^wang ]] && provider_flag='--provider sra --only-provider'
 
 
-    fastq-dl --accession "${accession}" --outdir . ${provider_flag}
+    fastq-dl --accession "${accession}" --outdir . --provider sra --only-provider
 
     # SE: fastq-dl produces <accession>.fastq.gz (no _1 suffix); rename for consistency
     if [[ ! -f "${accession}_1.fastq.gz" && -f "${accession}.fastq.gz" ]]; then
